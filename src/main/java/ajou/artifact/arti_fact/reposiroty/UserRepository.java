@@ -1,11 +1,7 @@
 package ajou.artifact.arti_fact.reposiroty;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-
 import ajou.artifact.arti_fact.entity.Users;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-@Repository
-public interface UserRepository extends JpaRepository<Users, String> {
-    
+public interface UserRepository extends JpaRepository<Users, Long> {
 }
