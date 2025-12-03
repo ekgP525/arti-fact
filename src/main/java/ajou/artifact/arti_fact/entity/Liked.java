@@ -1,41 +1,28 @@
 package ajou.artifact.arti_fact.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-
-import java.sql.Timestamp;
-import java.time.Instant;
+import lombok.*;
 
 @Entity
-@Table(name = "liked")
+@Table(name = "LIKED")
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Builder
 public class Liked {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "liked_id")
-    private Long id;
+    @Column(name = "Liked_ID")
+    private Long likedId;
 
+    // User와의 관계 (N:1)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private Users user;
+    @JoinColumn(name = "User_ID", nullable = false)
+    private User user;
 
+    // Art와의 관계 (N:1)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "art_id")
+    @JoinColumn(name = "Art_ID", nullable = false)
     private Art art;
-
-    @Column(name = "created_at", updatable = false)
-    private Timestamp createdAt;
-
-    public Liked() {}
-
-    public Liked(Users user, Art art) {
-        this.user = user;
-        this.art = art;
-    }
-
-    @PrePersist
-    protected void onCreate() {
-        createdAt = Timestamp.from(Instant.now());
-    }
 }

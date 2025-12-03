@@ -1,49 +1,43 @@
 package ajou.artifact.arti_fact.entity;
 
-import jakarta.persistence.*;
-import lombok.Getter;
+import jakarta.persistence.*; 
+import lombok.*;
 
 @Entity
-@Table(name = "art")
+@Table(name = "ART")
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Builder
 public class Art {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "art_id")
-    private Long id;
+    @Column(name = "Art_ID", nullable = false)
+    private String artId;
 
-    @Column(name = "name")
+    @Column(name = "Name", nullable = false)
     private String name;
 
-    @Column(name = "age")
-    private String age;
-
-    @Column(name = "genre")
-    private String genre;
-
-    @Column(name = "theme")
-    private String theme;
-
-    @Column(name = "display")
-    private Boolean display;
-
-    @Column(name = "url")
-    private String url;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "Artist_ID", nullable = false) 
+    private Artist artist;  // Artist 엔티티와 연관 (foreign key: Artist_ID)
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "artist_id")
-    private Artist artist; // Artist 엔티티가 있다고 가정합니다.
+    @JoinColumn(name = "Gallery_ID", nullable = false)
+    private Gallery gallery; // Gallery 엔티티와 연관  (foreign key: Gallery_ID)
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "gallery_id")
-    private Gallery gallery; // Gallery 엔티티가 있다고 가정합니다.
+    @Column(name = "Display")
+    private Boolean display; // 전시 여부 (1/0 -> true/false)
 
-    // 기본 생성자
-    public Art() {}
+    @Column(name = "Genre")
+    private String genre; 
+
+    @Column(name = "Theme")
+    private String theme; 
+
+    @Column(name = "Age")
+    private Integer age; 
+
+    @Column(name = "image")
+    private String imageUrl;
 }
-
-// Artist.java와 Gallery.java 파일도 필요합니다.
-// 예시:
-// @Entity @Getter public class Artist { @Id private Long id; private String name; }
-// @Entity @Getter public class Gallery { @Id private Long id; private String name; }
