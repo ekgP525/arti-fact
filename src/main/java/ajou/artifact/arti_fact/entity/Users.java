@@ -4,14 +4,10 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
-import java.sql.Timestamp;
-
 @Getter
 @Setter
 @Entity
 @Table(name = "users")
-@Getter
 public class Users {
 
     @Id

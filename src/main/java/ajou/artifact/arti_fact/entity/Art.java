@@ -31,7 +31,6 @@ public class Art {
     @Column(name = "url")
     private String url;
 
-    @ManyToOne
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "artist_id")
     private Artist artist; // Artist 엔티티가 있다고 가정합니다.
