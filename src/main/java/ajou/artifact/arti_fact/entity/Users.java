@@ -1,27 +1,17 @@
 package ajou.artifact.arti_fact.entity;
 
 import jakarta.persistence.*;
-import java.time.LocalDate;
-import java.sql.Timestamp;
+import lombok.Getter;
 
 @Entity
 @Table(name = "users")
+@Getter
 public class Users {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    private String userId;
+    private Long userId;
 
-    private String name;
-
-    private String pw;
-
-    @Column(name = "birth_date")
-    private LocalDate birthDate;
-
-    @Column(name = "created_at")
-    private Timestamp createdAt;
-
-    // 기본 생성자
-    public Users() {}
+    // 다른 필드들 (예: name, email 등)
 }
