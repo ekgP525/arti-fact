@@ -1,0 +1,50 @@
+package ajou.artifact.arti_fact.controller;
+
+import ajou.artifact.arti_fact.dto.ArtDto;
+import ajou.artifact.arti_fact.entity.Art;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import ajou.artifact.arti_fact.service.ArtService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+@RestController
+@RequestMapping("/api/arts")
+public class ArtController {
+
+    private final ArtService artService;
+
+    public ArtController(ArtService artService) {
+        this.artService = artService;
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<ArtDto.Response>> searchArts(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String genre,
+            @RequestParam(required = false) String theme,
+            @RequestParam(required = false) String artistName,
+            @RequestParam(required = false) String galleryName
+    ) {
+        List<Art> arts = artService.searchArts(name, genre, theme, artistName, galleryName);
+        List<ArtDto.Response> artResponses = arts.stream()
+                .map(ArtDto.Response::from)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(artResponses);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<ArtDto.Response>> findAllArts(Pageable pageable) {
+        Page<Art> artsPage = artService.findAllArts(pageable);
+        List<ArtDto.Response> artResponses = artsPage.getContent().stream()
+                .map(ArtDto.Response::from)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(artResponses);
+    }
+}

@@ -12,7 +12,7 @@ public class UserServices {
         this.userRepository = userRepository;
     }
 
-    public Users getUserById(String userId) {
+    public Users getUserById(Long userId) {
         return userRepository.findById(userId).orElse(null);
     }
 }

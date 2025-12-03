@@ -11,22 +11,13 @@ import java.sql.Timestamp;
 @Setter
 @Entity
 @Table(name = "users")
+@Getter
 public class Users {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    private String userId;
+    private Long userId;
 
-    private String name;
-
-    private String pw;
-
-    @Column(name = "birth_date")
-    private LocalDate birthDate;
-
-    @Column(name = "created_at")
-    private Timestamp createdAt;
-
-    // 기본 생성자
-    public Users() {}
+    // 다른 필드들 (예: name, email 등)
 }
