@@ -1,5 +1,6 @@
 package ajou.artifact.arti_fact.service;
 
+import ajou.artifact.arti_fact.dto.GalleryDto;
 import ajou.artifact.arti_fact.entity.Gallery;
 import ajou.artifact.arti_fact.repository.GalleryRepository;
 import lombok.RequiredArgsConstructor;

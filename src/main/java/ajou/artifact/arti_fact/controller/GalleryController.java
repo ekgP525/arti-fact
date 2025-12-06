@@ -1,12 +1,9 @@
 package ajou.artifact.arti_fact.controller;
 
-import ajou.artifact.arti_fact.entity.Gallery;
+import ajou.artifact.arti_fact.dto.GalleryDto;
 import ajou.artifact.arti_fact.service.GalleryService;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import java.io.IOException;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
 import java.util.Map;
