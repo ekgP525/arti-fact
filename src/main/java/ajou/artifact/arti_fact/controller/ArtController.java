@@ -6,6 +6,7 @@ import ajou.artifact.arti_fact.service.ArtService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,18 +29,26 @@ public class ArtController {
             @RequestParam(required = false) String galleryName
     ) {
         List<Art> arts = artService.searchArts(name, genre, theme, artistName, galleryName);
+        
         List<ArtDto.Response> artResponses = arts.stream()
+                // 정렬 로직 적용
+                .sorted(Comparator.comparing(Art::getAge, Comparator.nullsLast(Comparator.naturalOrder())))
                 .map(ArtDto.Response::from)
                 .collect(Collectors.toList());
+                
         return ResponseEntity.ok(artResponses);
     }
 
     @GetMapping
     public ResponseEntity<List<ArtDto.Response>> findAllArts() {
         List<Art> arts = artService.findAllArts();
+        
         List<ArtDto.Response> artResponses = arts.stream()
+                // 정렬 로직 적용: 년도(Age) 오름차순 (옛날 -> 최신), Null은 맨 뒤로
+                .sorted(Comparator.comparing(Art::getAge, Comparator.nullsLast(Comparator.naturalOrder())))
                 .map(ArtDto.Response::from)
                 .collect(Collectors.toList());
+                
         return ResponseEntity.ok(artResponses);
     }
 
