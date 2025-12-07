@@ -15,6 +15,22 @@ public class ArtSpecification {
     public static Specification<Art> search(String name, String genre, String theme, String artistName, String galleryName) {
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
+            
+            // fetch join을 사용하여 N+1 문제 해결
+            boolean needsArtistJoin = artistName != null && !artistName.isEmpty();
+            boolean needsGalleryJoin = galleryName != null && !galleryName.isEmpty();
+            
+            if (needsArtistJoin) {
+                root.fetch("artist");
+            }
+            if (needsGalleryJoin) {
+                root.fetch("gallery");
+            }
+            
+            // DISTINCT를 사용하여 중복 제거 (fetch join으로 인한 중복 방지)
+            if ((needsArtistJoin || needsGalleryJoin) && query != null) {
+                query.distinct(true);
+            }
 
             if (name != null && !name.isEmpty()) {
                 predicates.add(criteriaBuilder.like(root.get("name"), "%" + name + "%"));
@@ -25,11 +41,11 @@ public class ArtSpecification {
             if (theme != null && !theme.isEmpty()) {
                 predicates.add(criteriaBuilder.like(root.get("theme"), "%" + theme + "%"));
             }
-            if (artistName != null && !artistName.isEmpty()) {
+            if (needsArtistJoin) {
                 Join<Art, Artist> artistJoin = root.join("artist");
                 predicates.add(criteriaBuilder.like(artistJoin.get("name"), "%" + artistName + "%"));
             }
-            if (galleryName != null && !galleryName.isEmpty()) {
+            if (needsGalleryJoin) {
                 Join<Art, Gallery> galleryJoin = root.join("gallery");
                 predicates.add(criteriaBuilder.like(galleryJoin.get("name"), "%" + galleryName + "%"));
             }

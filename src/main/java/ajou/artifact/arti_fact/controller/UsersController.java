@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -78,7 +79,7 @@ public class UsersController {
     // 마이페이지 조회
     @Operation(summary = "마이페이지 조회")
     @GetMapping("/{userId}")
-    public ResponseEntity<?> getUserInfo(@PathVariable Long userId) {
+    public ResponseEntity<?> getUserInfo(@PathVariable @NonNull Long userId) {
 
         User user = usersService.getUserById(userId);
 
@@ -100,7 +101,7 @@ public class UsersController {
     @Operation(summary = "회원 정보 수정")
     @PutMapping("/{userId}")
     public ResponseEntity<?> updateUser(
-            @PathVariable Long userId,
+            @PathVariable @NonNull Long userId,
             @Valid @RequestBody UserDto.SignUpRequest request
     ) {
 

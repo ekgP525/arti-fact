@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,7 +29,7 @@ public class LikedController {
             @ApiResponse(responseCode = "404", description = "사용자를 찾을 수 없음")
     })
     public ResponseEntity<List<LikedDto.Response>> getLikedListByUser(
-            @Parameter(description = "사용자 ID", required = true) @PathVariable Long userId) {
+            @Parameter(description = "사용자 ID", required = true) @PathVariable @NonNull Long userId) {
         return ResponseEntity.ok(likedService.getLikedListByUser(userId));
     }
 
@@ -39,7 +40,7 @@ public class LikedController {
             @ApiResponse(responseCode = "404", description = "사용자 또는 작품을 찾을 수 없음")
     })
     public ResponseEntity<LikedDto.ToggleResponse> toggleLikedItem(
-            @Parameter(description = "관심 목록 추가 요청", required = true) @RequestBody LikedDto.Create request) {
+            @Parameter(description = "관심 목록 추가 요청", required = true) @RequestBody @NonNull LikedDto.Create request) {
         return ResponseEntity.ok(likedService.toggleLikeStatus(request));
     }
 
@@ -50,7 +51,7 @@ public class LikedController {
             @ApiResponse(responseCode = "404", description = "관심 목록을 찾을 수 없음")
     })
     public ResponseEntity<Void> removeLikedItem(
-            @Parameter(description = "관심 목록 ID", required = true) @PathVariable Long likedId) {
+            @Parameter(description = "관심 목록 ID", required = true) @PathVariable @NonNull Long likedId) {
         likedService.removeLikedItem(likedId);
         return ResponseEntity.ok().build();
     }

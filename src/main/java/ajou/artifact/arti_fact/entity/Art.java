@@ -4,7 +4,14 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "ART")
+@Table(name = "ART", indexes = {
+    @Index(name = "idx_art_name", columnList = "Name"),
+    @Index(name = "idx_art_genre", columnList = "Genre"),
+    @Index(name = "idx_art_theme", columnList = "Theme"),
+    @Index(name = "idx_art_age", columnList = "Age"),
+    @Index(name = "idx_art_artist", columnList = "Artist_ID"),
+    @Index(name = "idx_art_gallery", columnList = "Gallery_ID")
+})
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor

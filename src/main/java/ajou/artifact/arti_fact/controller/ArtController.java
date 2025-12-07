@@ -31,7 +31,6 @@ public class ArtController {
         List<Art> arts = artService.searchArts(name, genre, theme, artistName, galleryName);
         
         List<ArtDto.Response> artResponses = arts.stream()
-                // 정렬 로직 적용
                 .sorted(Comparator.comparing(Art::getAge, Comparator.nullsLast(Comparator.naturalOrder())))
                 .map(ArtDto.Response::from)
                 .collect(Collectors.toList());
@@ -40,12 +39,10 @@ public class ArtController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ArtDto.Response>> findAllArts() {
+    public ResponseEntity<List<ArtDto.Response>> findAllArts() {  
         List<Art> arts = artService.findAllArts();
         
         List<ArtDto.Response> artResponses = arts.stream()
-                // 정렬 로직 적용: 년도(Age) 오름차순 (옛날 -> 최신), Null은 맨 뒤로
-                .sorted(Comparator.comparing(Art::getAge, Comparator.nullsLast(Comparator.naturalOrder())))
                 .map(ArtDto.Response::from)
                 .collect(Collectors.toList());
                 

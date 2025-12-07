@@ -2,6 +2,7 @@ package ajou.artifact.arti_fact.dto;
 
 import ajou.artifact.arti_fact.entity.Liked;
 import lombok.*;
+import org.springframework.lang.NonNull;
 
 public class LikedDto {
 
@@ -11,7 +12,9 @@ public class LikedDto {
     @AllArgsConstructor
     @Builder
     public static class Create {
+        @NonNull
         private Long userId;
+        @NonNull
         private String artId;
     }
 

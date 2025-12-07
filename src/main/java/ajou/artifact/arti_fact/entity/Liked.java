@@ -4,7 +4,11 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "LIKED")
+@Table(name = "LIKED", indexes = {
+    @Index(name = "idx_liked_user_art", columnList = "User_ID,Art_ID", unique = true),
+    @Index(name = "idx_liked_user", columnList = "User_ID"),
+    @Index(name = "idx_liked_art", columnList = "Art_ID")
+})
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor

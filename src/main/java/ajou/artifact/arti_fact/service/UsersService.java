@@ -4,6 +4,7 @@ import ajou.artifact.arti_fact.dto.UserDto;
 import ajou.artifact.arti_fact.entity.User;
 import ajou.artifact.arti_fact.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,7 +23,8 @@ public class UsersService {
 
     // 회원가입
     @Transactional
-    public User registerUser(UserDto.SignUpRequest req) {
+    @SuppressWarnings("null")
+    public @NonNull User registerUser(UserDto.SignUpRequest req) {
         
         if (existsByEmail(req.getEmail())) {
             throw new IllegalArgumentException("이미 존재하는 이메일입니다.");
@@ -35,7 +37,8 @@ public class UsersService {
                 .birthDate(req.getBirthDate())
                 .build();
 
-        return userRepository.save(user);
+        User savedUser = userRepository.save(user);
+        return savedUser;
     }
 
     // 로그인
@@ -44,18 +47,20 @@ public class UsersService {
     }
 
     // 마이페이지 조회
-    public User getUserById(Long userId) {
+    public User getUserById(@NonNull Long userId) {
         return userRepository.findById(userId).orElse(null);
     }
 
     // 회원정보 수정
-    public User updateUser(Long userId, String name, String password, LocalDate birthDate) {
+    @SuppressWarnings("null")
+    public User updateUser(@NonNull Long userId, String name, String password, LocalDate birthDate) {
 
         return userRepository.findById(userId).map(user -> {
             if (name != null) user.setName(name);
             if (password != null) user.setPassword(password);
             if (birthDate != null) user.setBirthDate(birthDate);
-            return userRepository.save(user);
+            User savedUser = userRepository.save(user);
+            return savedUser;
         }).orElse(null);
     }
 }
